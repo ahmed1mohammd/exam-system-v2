@@ -2,7 +2,7 @@
    1. SETUP & CONFIGURATION
    ========================================== */
 const authToken = sessionStorage.getItem('authToken');
-if (!authToken) window.location.href = 'login.html';
+if (!authToken) window.location.href = 'index.html';
 
 let examData = null;
 let currentQIndex = 0;
