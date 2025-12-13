@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RosTech Exam System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        
+   <div class="exam-navbar">
+    <h3 id="examTitle">جاري التحميل...</h3>
+
+    <div class="nav-left-side">
+        <div id="timerDisplay" class="timer-badge">--:--</div>
+        <div class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i></div>
+    </div>
+</div>
+
+        <div id="waitingSection" class="hidden text-center waiting-box">
+            <div class="loader-container">
+                <div class="spinner"></div>
+            </div>
+            <h2 class="wait-title">أهلاً بك في غرفة الانتظار</h2>
+            <p class="wait-desc">لم يبدأ الامتحان بعد، يرجى الانتظار لحين بدء الوقت الرسمي.</p>
+            
+            <div class="info-grid" id="studentInfoWaiting">
+                </div>
+            
+            <div class="countdown-box">
+                <span class="countdown-label">يبدأ الامتحان خلال</span>
+                <div id="countdownStart" class="countdown-timer">00:00:00</div>
+            </div>
+        </div>
+
+        <div id="examSection" class="hidden">
+            
+            <div class="stats-box">
+                <div class="stat-row">
+                    <span class="stat-label">عدد الأسئلة :</span>
+                    <span class="stat-badge" id="statTotal">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">الأسئلة غير المحلولة :</span>
+                    <span class="stat-badge gray" id="statUnsolved">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">الأسئلة المحلولة :</span>
+                    <span class="stat-badge green" id="statSolved">0</span>
+                </div>
+                <div class="stat-row highlight">
+                    <span class="stat-label">السؤال الحالي :</span>
+                    <span class="stat-badge dark" id="statCurrent">1</span>
+                </div>
+            </div>
+
+            <div id="questionContainer">
+                </div>
+
+            <div class="nav-buttons">
+                <button id="prevBtn" class="nav-btn"><i class="fas fa-chevron-right"></i> السابق</button>
+                <button id="nextBtn" class="nav-btn">التالي <i class="fas fa-chevron-left"></i></button>
+                <button id="finishBtn" class="nav-btn finish hidden">إنهاء الامتحان <i class="fas fa-check"></i></button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="hidden info-card">
+            <i class="fas fa-clipboard-check fa-4x" style="color: var(--success);"></i>
+            <h2 style="margin-top: 15px;">تم الانتهاء بنجاح</h2>
+            
+            <div class="score-badge" id="finalScore">0 / 0</div>
+            
+            <div class="info-grid" id="studentInfoResult">
+                </div>
+            
+            <button onclick="window.location.href='login.html'" class="btn-primary" style="margin-top: 20px;">
+                تسجيل خروج <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <footer class="minimal-footer">
+        <p>
+            Developed By <a href="https://ro-s.net/" target="_blank" rel="noopener noreferrer">ROS-TECH</a> &copy; 2025
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="exam.js"></script>
+</body>
+</html>
