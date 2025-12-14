@@ -323,10 +323,11 @@ body {
 }
 
 /* =========================================
-   8. QUESTIONS UI
+   8. QUESTIONS 
    ========================================= */
 .question-card { 
   animation: fadeIn 0.3s ease; 
+  padding-top: 15px;
 }
 
 .q-text { 
@@ -393,6 +394,9 @@ body.dark-mode .option-item.selected {
 .stats-box { 
   background: var(--btn-bg); 
   padding-bottom: 10px; 
+  margin-top: 5px;
+  margin-bottom: 15px;
+
   border-radius: 10px; 
   border: 1px solid var(--border); 
   overflow: hidden; 
