@@ -2,37 +2,48 @@
    1. VARIABLES & THEME
    ========================================= */
 :root {
-  --bg-gradient: radial-gradient(circle at center, #248ba5 0%, #064051 100%);
-  --bg-card: #0e4c5e;
-  --text-main: #ffffff;
-  --text-secondary: #cbd5e1;
-  --primary: #1976d2;
-  --timer-bg: #0a2e3a;
-  --btn-bg: #09303d;
+  --white:        #ffffff;
+  --light-mint:   #c4dad2;
+  --mint:         #6a9c89;
+  --mint-dark:    #568c7b;
+  --mint-deep:    #568e7c;
+  --black-bg:     #000000;
+  --dark-card:    #111111;
+  
+  --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  --bg-card: var(--white);
+  --text-main: #2c3e50;
+  --text-secondary: #64748b;
+  
+  --primary: var(--mint-dark);
+  --timer-bg: var(--mint);
+  --btn-bg: #f1f5f9;
   --success: #10b981;
   --danger: #ef4444;
-  --border: rgba(255, 255, 255, 0.1);
+  --border: #e2e8f0;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-body.light-mode {
-  --bg-gradient: radial-gradient(circle at center, #f8fafc 0%, #e2e8f0 100%);
-  --bg-card: #ffffff;
-  --text-main: #1e293b;
-  --text-secondary: #64748b;
-  --primary: #0284c7;
-  --timer-bg: #f1f5f9;
-  --btn-bg: #e2e8f0;
-  --border: #e2e8f0;
+body.dark-mode {
+  --bg-gradient: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+  --bg-card: #0f0f0f;
+  --text-main: #ffffff;
+  --text-secondary: #a0a0a0;
+  --primary: var(--mint); 
+  --timer-bg: #0d2b26;
+  --btn-bg: #1a1a1a;
+  --border: #333333;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
 /* =========================================
    2. GLOBAL RESET & BODY
    ========================================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  font-family: 'El Messiri', 'Segoe UI', Tahoma, sans-serif; 
 }
 
 body {
@@ -41,472 +52,576 @@ body {
   color: var(--text-main);
   direction: rtl;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
+  font-size: 16px; 
+  line-height: 1.6;
 }
 
 /* =========================================
-   3. CONTAINER & LOGIN BOX
+   3. CONTAINER & LAYOUT
    ========================================= */
-
 .container {
   width: 95%; 
-  max-width: 700px; 
+  max-width: 600px;
   background: var(--bg-card);
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  position: relative;
+  border-radius: 12px; 
+  padding: 25px;
+  box-shadow: var(--shadow);
+  position: relative; 
   transition: all 0.3s ease;
   margin: auto; 
-  display: flex;
+  display: flex; 
   flex-direction: column;
+  border: 1px solid var(--border);
+  gap: 15px;
 }
 
-
-.container.login-box {
-  max-width: 400px;
-  padding: 40px 25px;
+.container.login-box { 
+  max-width: 380px;
+  padding: 40px 30px; 
   text-align: center;
+  gap: 25px;
+}
+
+.login-icon {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+  display: block;
 }
 
 .login-box h2 {
-  margin-bottom: 2rem;
+  margin: 0;
   color: var(--primary);
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 
 /* =========================================
    4. NAVBAR & HEADER
    ========================================= */
-.exam-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 15px;
-}
-
-.nav-left-side {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.theme-toggle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--text-main);
-  background: rgba(255, 255, 255, 0.05);
-  transition: 0.3s;
-}
-
-.theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: rotate(15deg);
-}
-
-body.light-mode .theme-toggle {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-
-.timer-badge {
-  background: var(--timer-bg);
-  padding: 8px 15px;
-  border-radius: 10px;
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 1.2rem;
-  color: var(--text-main);
-}
-
-body.light-mode .timer-badge {
-  color: var(--primary);
-}
-
-/* =========================================
-   5. WAITING ROOM & LOADER
-   ========================================= */
-.waiting-box {
-  padding: 20px;
-  animation: fadeIn 0.5s ease;
-}
-
-.loader-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 25px;
-}
-
-.spinner {
-  width: 60px;
-  height: 60px;
-  border: 5px solid rgba(255, 255, 255, 0.1);
-  border-top: 5px solid var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.wait-title {
-  color: var(--primary);
-  margin-bottom: 10px;
-  font-size: 1.8rem;
-}
-
-.wait-desc {
-  color: var(--text-secondary);
-  margin-bottom: 30px;
-  font-size: 1rem;
-}
-
-.countdown-box {
-  margin-top: 30px;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  border-radius: 15px;
-  border: 1px dashed var(--border);
-}
-
-.countdown-label {
-  display: block;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  margin-bottom: 10px;
-}
-
-.countdown-timer {
-  font-size: 3rem;
-  font-weight: bold;
-  font-family: 'Segoe UI', monospace;
-  color: var(--text-main);
-  letter-spacing: 2px;
-  direction: ltr;
-}
-
-body.light-mode .countdown-timer {
-  color: var(--primary);
-}
-
-/* =========================================
-   6. INFO & FORMS
-   ========================================= */
-.input-group {
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 15px;
-  border-radius: 10px;
-  border: 2px solid var(--border);
-  background: transparent;
-  color: var(--text-main);
-  font-size: 1rem;
-  outline: none;
-}
-
-.input-group input:focus {
-  border-color: var(--primary);
-}
-
-.btn-primary {
-  width: 100%;
-  padding: 15px;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-.info-card {
-  text-align: center;
-  padding: 20px;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin: 20px 0;
-  text-align: right;
-}
-
-.info-item {
-  background: var(--btn-bg);
-  padding: 15px;
-  border-radius: 12px;
-}
-
-.info-label {
-  display: block;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+.exam-navbar { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  border-bottom: 1px solid var(--border); 
+  padding-bottom: 10px; 
   margin-bottom: 5px;
 }
 
-.info-val {
-  font-weight: bold;
-  font-size: 1.1rem;
+.exam-navbar h3 { 
+  font-size: 1.1rem; 
+  margin: 0; 
+  font-weight: 700; 
 }
 
-/* =========================================
-   7. QUESTIONS UI
-   ========================================= */
-.question-card {
-  animation: fadeIn 0.4s ease;
+.nav-left-side { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
 }
 
-.q-text {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-
-.q-img {
-  max-width: 100%;
-  border-radius: 10px;
-  margin: 15px 0;
+.theme-toggle {
+  width: 32px; 
+  height: 32px; 
+  border-radius: 50%; 
   border: 1px solid var(--border);
-}
-
-.options-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.option-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
   cursor: pointer;
-  transition: 0.2s;
-}
-
-.option-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--primary);
-}
-
-body.light-mode .option-item:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.option-item input {
-  transform: scale(1.3);
-  accent-color: var(--primary);
-}
-
-.option-item.selected {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
-}
-
-/* =========================================
-   8. STATS DASHBOARD
-   ========================================= */
-.stats-box {
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 16px;
-  padding: 10px 0;
-  margin-bottom: 25px;
-  border: 1px solid var(--border);
-  overflow: hidden;
-}
-
-body.light-mode .stats-box {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-}
-
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-main);
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-body.light-mode .stat-row {
-  border-bottom-color: rgba(0, 0, 0, 0.08);
-}
-
-.stat-row:last-child {
-  border-bottom: none;
-}
-
-.stat-row.highlight {
-  background: #ffffff;
-  color: #0f172a;
-  margin: 10px 15px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: none;
-}
-
-body.light-mode .stat-row.highlight {
-  background: var(--primary);
-  color: #ffffff;
-}
-
-.stat-badge {
-  min-width: 35px;
-  height: 35px;
-  padding: 0 10px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 1.1rem;
-}
-
-.stat-badge.default { background: #f8fafc; color: #334155; }
-.stat-badge.gray { background: #64748b; color: #ffffff; }
-.stat-badge.green { background: #22c55e; color: #ffffff; }
-.stat-badge.dark { background: #0f172a; color: #ffffff; }
-
-body.light-mode .stat-row.highlight .stat-badge.dark {
-  background: #ffffff;
-  color: var(--primary);
-}
-
-/* =========================================
-   9. FOOTER
-   ========================================= */
-.minimal-footer {
-  width: 100%;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: auto;
-  background: rgba(0, 0, 0, 0.15);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
-}
-
-body.light-mode .minimal-footer {
-  background: #f1f5f9;
-  border-color: #e2e8f0;
-  color: #64748b;
-}
-
-.minimal-footer a {
-  color: #fff;
-  font-weight: 700;
-  text-decoration: none;
-  margin: 0 4px;
-  transition: all 0.3s ease;
-}
-
-body.light-mode .minimal-footer a {
-  color: var(--primary);
-}
-
-.minimal-footer a:hover {
-  color: var(--primary);
-  text-shadow: 0 0 10px rgba(25, 118, 210, 0.4);
-  text-decoration: underline;
-}
-
-.minimal-footer p {
-  margin: 0;
-}
-
-/* =========================================
-   10. BUTTONS & UTILS
-   ========================================= */
-.nav-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30px;
-  gap: 10px;
-}
-
-.nav-btn {
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: var(--btn-bg);
-  color: var(--text-main);
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  color: var(--text-main); 
+  background: transparent; 
   transition: 0.3s;
 }
 
-.nav-btn:hover {
-  background: var(--primary);
-  color: white;
+.theme-toggle:hover { 
+  background: var(--btn-bg); 
+  color: var(--primary); 
 }
 
-.nav-btn.finish {
-  background: var(--danger);
-  color: white;
+.timer-badge {
+  background: var(--timer-bg); 
+  padding: 4px 12px; 
+  border-radius: 6px; 
+  font-weight: bold; 
+  font-family: monospace; 
+  font-size: 1.1rem; 
+  color: #fff;
+}
+
+/* =========================================
+   5. WAITING ROOM
+   ========================================= */
+.waiting-box { 
+  padding: 10px 0; 
+  text-align: center; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 15px; 
+  animation: fadeIn 0.5s ease;
+}
+
+.loader-container { 
+  display: flex; 
+  justify-content: center; 
+}
+
+.spinner { 
+  width: 45px; 
+  height: 45px; 
+  border: 3px solid var(--border); 
+  border-top: 3px solid var(--primary); 
+  border-radius: 50%; 
+  animation: spin 1s linear infinite; 
+}
+
+@keyframes spin { 
+  0% { transform: rotate(0deg); } 
+  100% { transform: rotate(360deg); } 
+}
+
+.wait-title { 
+  color: var(--primary); 
+  font-size: 1.4rem; 
+  margin: 0; 
+}
+
+.wait-desc { 
+  color: var(--text-secondary); 
+  font-size: 0.95rem; 
+  margin: 0; 
+}
+
+.countdown-box { 
+  background: var(--btn-bg); 
+  padding: 15px; 
+  border-radius: 10px; 
+  border: 1px dashed var(--primary); 
+  margin: 0 auto; 
+  min-width: 220px; 
+}
+
+.countdown-timer { 
+  font-size: 2.2rem; 
+  font-weight: bold; 
+  font-family: monospace; 
+  color: var(--primary); 
+  direction: ltr; 
+  line-height: 1; 
+}
+
+/* =========================================
+   6. RESULT PAGE
+   ========================================= */
+#resultSection {
+  text-align: center; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  gap: 20px; 
+  padding: 10px 0;
+}
+
+#resultSection i.fa-clipboard-check {
+  font-size: 3.5rem; 
+  margin-bottom: 5px; 
+  display: block;
+}
+
+#resultSection h2 { 
+  font-size: 1.6rem; 
+  margin: 0; 
+  color: var(--text-main); 
+}
+
+.score-badge { 
+  font-size: 2.5rem; 
+  color: var(--success); 
+  font-weight: bold; 
+  margin: 10px 0; 
+  font-family: monospace;
+}
+
+/* =========================================
+   7. INPUTS & BUTTONS
+   ========================================= */
+.input-group { 
+  margin-bottom: 0; 
+  width: 100%; 
+}
+
+.input-group input { 
+  width: 100%; 
+  margin-bottom: 15px; 
+  padding: 12px; 
+  border-radius: 8px; 
+  border: 2px solid var(--border); 
+  background: transparent; 
+  color: var(--text-main); 
+  font-size: 1rem; 
+  outline: none; 
+}
+
+.input-group input:focus { 
+  border-color: var(--primary); 
+}
+
+.btn-primary { 
+  width: 100%; 
+  padding: 12px; 
+  background: var(--primary); 
+  color: white; 
+  border: none; 
+  border-radius: 8px; 
+  font-size: 1rem; 
+  cursor: pointer; 
+  transition: 0.3s; 
+}
+
+.btn-primary:hover { 
+  opacity: 0.9; 
+  transform: translateY(-2px); 
+}
+
+.nav-buttons { 
+  display: flex; 
+  justify-content: space-between; 
+  margin-top: 10px; 
+  gap: 10px; 
+}
+
+.nav-btn { 
+  padding: 8px 18px; 
+  border: none; 
+  border-radius: 6px; 
+  cursor: pointer; 
+  background: var(--btn-bg); 
+  color: var(--text-main); 
+  font-weight: bold; 
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+  transition: 0.3s; 
+  border: 1px solid var(--border); 
+  font-size: 0.9rem; 
+}
+
+.nav-btn:hover { 
+  background: var(--primary); 
+  color: white; 
+  border-color: var(--primary); 
+}
+
+.nav-btn.finish { 
+  background: var(--danger); 
+  color: white; 
+  border-color: var(--danger); 
+}
+
+/* =========================================
+   8. QUESTIONS UI
+   ========================================= */
+.question-card { 
+  animation: fadeIn 0.3s ease; 
+}
+
+.q-text { 
+  font-size: 1.05rem; 
+  margin-bottom: 15px; 
+  font-weight: 600; 
+  border-right: 3px solid var(--primary); 
+  padding-right: 12px; 
+}
+
+.q-img { 
+  max-width: 100%; 
+  max-height: 180px; 
+  border-radius: 8px; 
+  margin: 10px auto; 
+  display: block; 
+  border: 1px solid var(--border); 
+}
+
+.options-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+}
+
+.option-item { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  padding: 10px 12px; 
+  border-radius: 8px; 
+  border: 1px solid var(--border); 
+  cursor: pointer; 
+  transition: 0.15s; 
+  background: transparent; 
+  font-size: 0.95rem; 
+}
+
+.option-item:hover { 
+  border-color: var(--primary); 
+  background: var(--btn-bg); 
+}
+
+.option-item input { 
+  transform: scale(1.15); 
+  accent-color: var(--primary); 
+  margin: 0; 
+}
+
+.option-item.selected { 
+  border-color: var(--primary); 
+  background: rgba(106, 156, 137, 0.15); 
+  color: var(--text-main); 
+  font-weight: bold; 
+}
+
+body.dark-mode .option-item.selected { 
+  background: rgba(106, 156, 137, 0.3); 
+}
+
+/* =========================================
+   9. STATS DASHBOARD & PAGINATION
+   ========================================= */
+.stats-box { 
+  background: var(--btn-bg); 
+  padding-bottom: 10px; 
+  border-radius: 10px; 
+  border: 1px solid var(--border); 
+  overflow: hidden; 
+}
+
+.stat-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 8px 15px; 
+  border-bottom: 1px solid var(--border); 
+  color: var(--text-main); 
+  font-weight: 500; 
+  font-size: 0.9rem; 
+}
+
+.stat-row:last-child { 
+  border-bottom: none; 
+}
+
+.stat-row.highlight { 
+  background: var(--primary); 
+  color: #fff; 
+  padding: 10px 15px; 
+  border: none; 
+}
+
+.stat-badge { 
+  min-width: 25px; 
+  height: 25px; 
+  padding: 0 5px; 
+  border-radius: 5px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-weight: bold; 
+  font-family: sans-serif; 
+  font-size: 0.9rem; 
+}
+
+.stat-badge.default { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); }
+.stat-badge.gray { background: #64748b; color: #ffffff; }
+.stat-badge.green { background: var(--success); color: #ffffff; }
+.stat-badge.dark { background: #fff; color: var(--primary); } 
+
+.pagination-box { 
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: center; 
+  gap: 6px; 
+  padding-top: 15px; 
+  border-top: 1px solid var(--border); 
+}
+
+.page-dot { 
+  width: 30px; 
+  height: 30px; 
+  border-radius: 50%; 
+  background: transparent; 
+  color: var(--text-main); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-weight: bold; 
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+  border: 1px solid var(--border); 
+  font-family: sans-serif; 
+  font-size: 0.85rem; 
+}
+
+.page-dot:hover { border-color: var(--primary); color: var(--primary); }
+.page-dot.active { border-color: var(--primary); background: var(--primary); color: #fff; transform: scale(1.1); }
+.page-dot.solved { background: var(--success); color: #fff; border-color: var(--success); }
+
+/* =========================================
+   10. CUSTOM FOOTER (ROS TECH)
+   ========================================= */
+.footer-home {
+  background-color: var(--mint-dark); 
+  color: #ffffff;
+  margin-top: 60px; 
+  width: 100%;
+  padding-top: 40px;
+  border-top: 4px solid var(--mint);
+  position: relative;
+  z-index: 10;
+}
+
+body.dark-mode .footer-home {
+  background-color: #0d2b26; 
+  border-top-color: var(--mint-dark);
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  gap: 15px; 
+  padding-bottom: 30px;
+  
+}
+
+.img-footer {
+  max-width: 100px; 
+  height: auto;
+  margin-bottom: 5px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.coat-footer {
+  font-family: "El Messiri", sans-serif;
+  font-weight: bold; 
+  text-align: center;
+  color: #fff; 
+  font-size: 1.1rem;
+  margin: 0; 
+  line-height: 1.6; 
+  opacity: 0.9;
+}
+
+.hr-footer {
+  width: 40%; 
+  border: 0; 
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 10px auto;
+}
+
+.footer-social p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem; 
+  margin-bottom: 10px; 
+  font-weight: bold;
+}
+
+.social-icons { 
+  display: flex; 
+  justify-content: center; 
+  gap: 15px; 
+}
+
+.social-icons img { 
+  width: 32px; 
+  height: 32px; 
+  transition: transform 0.3s ease; 
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2)); 
+}
+
+.social-icons img:hover { 
+  transform: scale(1.2) rotate(5deg); 
+}
+
+.copy-right {
+  font-family: "Lemonada", sans-serif !important;
+  font-weight: 600; 
+  text-align: center; 
+  font-size: 0.8rem;
+  width: 100%; 
+  padding: 15px 10px; 
+  margin: 0;
+  background: rgba(0, 0, 0, 0.1); 
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.copy-right .ros {
+  color: #fff; 
+  text-decoration: none; 
+  font-weight: 800;
+  background: rgba(255,255,255,0.1);
+  padding: 2px 8px; 
+  border-radius: 4px; 
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+
+.copy-right .ros:hover {
+  background: #fff; 
+  color: var(--mint-dark);
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+  display: inline-block;
+}
+
+/* =========================================
+   11. UTILITIES & MEDIA QUERIES
+   ========================================= */
+.info-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 10px; 
+  text-align: right; 
+  width: 100%; 
+}
+
+.info-item { 
+  background: var(--btn-bg); 
+  padding: 8px 12px; 
+  border-radius: 8px; 
+  border: 1px solid var(--border); 
+  font-size: 0.9rem; 
+}
+
+.info-label { 
+  font-size: 0.8rem; 
+  display: block; 
+  color: var(--text-secondary); 
+}
+
+.info-val { 
+  font-size: 0.95rem; 
+  font-weight: bold; 
 }
 
 .hidden { display: none !important; }
 .text-center { text-align: center; }
-.score-badge { font-size: 3rem; color: var(--success); font-weight: bold; margin: 20px 0; }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn { 
+  from { opacity: 0; transform: translateY(5px); } 
+  to { opacity: 1; transform: translateY(0); } 
 }
 
-/* =========================================
-   11. MEDIA QUERIES
-   ========================================= */
-@media (max-width: 600px) {
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 600px) { 
+  .info-grid { grid-template-columns: 1fr; } 
 }
 
-@media (max-width: 480px) {
-  .container {
-    padding: 20px;
-    width: 95%;
-  }
-
-  .login-box h2 {
-    font-size: 1.5rem;
-  }
+@media (max-width: 480px) { 
+  .container { padding: 15px; width: 96%; } 
+  .login-box h2 { font-size: 1.4rem; } 
 }

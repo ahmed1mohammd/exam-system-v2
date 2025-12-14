@@ -41,7 +41,6 @@ async function init() {
     setupTheme();
     try {
         await fetchExamData(); 
-        
         if (examData) {
             ui.navbarTitle.textContent = examData.meta.title;
             renderStudentInfo();
@@ -54,14 +53,13 @@ async function init() {
 }
 
 async function fetchExamData() {
-    // --- MOCK DATA (5 أسئلة للتجربة) ---
     const now = new Date();
     
-    const mockStartTime = new Date(now.getTime()+ 10 * 1000).toISOString(); 
+    const mockStartTime = new Date(now.getTime() + 5 * 1000).toISOString(); 
 
     examData = {
         meta: {
-            title: "اختبار تجريبي شامل ",
+            title: "اختبار تجريبي شامل",
             startTime: mockStartTime,
             durationMinutes: 60,
             student: {
@@ -70,36 +68,11 @@ async function fetchExamData() {
             }
         },
         questions: [
-            { 
-                id: 1, type: "mcq", 
-                text: "ما هي وحدة قياس القوة في النظام الدولي؟", 
-                options: ["نيوتن", "جول", "واط", "فولت"], 
-                correct: "نيوتن" 
-            },
-            { 
-                id: 2, type: "tf", 
-                text: "سرعة الضوء في الفراغ هي أكبر سرعة في الكون.", 
-                options: ["صح", "خطأ"], 
-                correct: "صح" 
-            },
-            { 
-                id: 3, type: "mcq", 
-                text: "أي مما يلي يعتبر من الكميات المتجهة؟", 
-                options: ["الكتلة", "الزمن", "الإزاحة", "درجة الحرارة"], 
-                correct: "الإزاحة" 
-            },
-            { 
-                id: 4, type: "mcq", 
-                text: "ناتج قسمة 50 على 2 يساوي:", 
-                options: ["20", "25", "30", "100"], 
-                correct: "25" 
-            },
-            { 
-                id: 5, type: "mcq", 
-                text: "عاصمة جمهورية مصر العربية هي:", 
-                options: ["الإسكندرية", "أسوان", "القاهرة", "الجيزة"], 
-                correct: "القاهرة" 
-            }
+            { id: 1, type: "mcq", text: "ما هي وحدة قياس القوة في النظام الدولي؟", options: ["نيوتن", "جول", "واط", "فولت"], correct: "نيوتن" },
+            { id: 2, type: "tf", text: "سرعة الضوء في الفراغ هي أكبر سرعة في الكون.", options: ["صح", "خطأ"], correct: "صح" },
+            { id: 3, type: "mcq", text: "أي مما يلي يعتبر من الكميات المتجهة؟", options: ["الكتلة", "الزمن", "الإزاحة", "درجة الحرارة"], correct: "الإزاحة" },
+            { id: 4, type: "mcq", text: "ناتج قسمة 50 على 2 يساوي:", options: ["20", "25", "30", "100"], correct: "25" },
+            { id: 5, type: "mcq", text: "عاصمة جمهورية مصر العربية هي:", options: ["الإسكندرية", "أسوان", "القاهرة", "الجيزة"], correct: "القاهرة" }
         ]
     };
 }
@@ -119,7 +92,8 @@ function checkExamStatus() {
 
     if (nowTime < startTime) {
         showSection('waiting');
-        ui.countdownStart.textContent = formatTime((startTime - nowTime) / 1000);
+        const diffInSeconds = (startTime - nowTime) / 1000;
+        ui.countdownStart.textContent = formatTime(diffInSeconds);
         ui.timer.textContent = "--:--";
     } else if (nowTime > endTime) {
         if (ui.sections.result.classList.contains('hidden')) finishExam(true);
@@ -130,7 +104,6 @@ function checkExamStatus() {
         }
         const remaining = endTime - nowTime;
         ui.timer.textContent = formatTime(remaining / 1000);
-        
         if (remaining < 60000) ui.timer.style.color = "#ef4444";
         else ui.timer.style.color = "";
     }
@@ -146,9 +119,7 @@ function startExamUI() {
 }
 
 function renderQuestion(index) {
-    
     if (index < 0 || index >= examData.questions.length) return;
-
     const q = examData.questions[index];
     currentQIndex = index;
 
@@ -161,10 +132,11 @@ function renderQuestion(index) {
 
     q.options.forEach(opt => {
         const isSelected = userAnswers[q.id] === opt;
+        
         html += `
             <label class="option-item ${isSelected ? 'selected' : ''}" onclick="selectOption(this, ${q.id}, '${opt}')">
-                <span>${opt}</span>
                 <input type="radio" name="q_${q.id}" value="${opt}" ${isSelected ? 'checked' : ''}> 
+                <span>${opt}</span>
             </label>
         `;
     });
@@ -172,9 +144,9 @@ function renderQuestion(index) {
     html += `</div></div>`;
     ui.questionContainer.innerHTML = html;
     
-    
     updateNavButtons(index);
     updateStatsUI();
+    updatePagination();
 }
 
 window.selectOption = (element, qId, val) => {
@@ -183,34 +155,45 @@ window.selectOption = (element, qId, val) => {
     element.querySelector('input').checked = true;
     userAnswers[qId] = val;
     updateStatsUI();
+    updatePagination(); 
 };
 
 function updateStatsUI() {
     if(!ui.stats.total) return;
     const total = examData.questions.length;
     const solved = Object.keys(userAnswers).length;
-    
     ui.stats.total.textContent = total;
     ui.stats.solved.textContent = solved;
     ui.stats.unsolved.textContent = total - solved;
     ui.stats.current.textContent = currentQIndex + 1;
 }
 
+
+function updatePagination() {
+    const container = document.getElementById('questionPagination');
+    if (!container) return;
+    let html = '';
+    examData.questions.forEach((q, index) => {
+        const isSolved = userAnswers[q.id] !== undefined;
+        const isActive = index === currentQIndex;
+        let classes = 'page-dot';
+        if (isSolved) classes += ' solved';
+        if (isActive) classes += ' active';
+        html += `<div class="${classes}" onclick="renderQuestion(${index})">${index + 1}</div>`;
+    });
+    container.innerHTML = html;
+}
+
 /* ==========================================
    5. NAVIGATION & FINISH
    ========================================== */
 function updateNavButtons(index) {
-    
     ui.btns.prev.style.display = index === 0 ? 'none' : 'flex';
-    
-   
     if (index === examData.questions.length - 1) {
-    
         ui.btns.next.style.display = 'none';
         ui.btns.finish.classList.remove('hidden'); 
         ui.btns.finish.style.display = 'flex';     
     } else {
-       
         ui.btns.next.style.display = 'flex';
         ui.btns.finish.classList.add('hidden');
         ui.btns.finish.style.display = 'none';
@@ -219,32 +202,19 @@ function updateNavButtons(index) {
 
 ui.btns.next.onclick = () => renderQuestion(currentQIndex + 1);
 ui.btns.prev.onclick = () => renderQuestion(currentQIndex - 1);
-
 ui.btns.finish.onclick = () => {
     Swal.fire({
-        title: 'تأكيد الإنهاء',
-        text: "هل أنت متأكد من تسليم الإجابات؟",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'نعم، تسليم',
-        cancelButtonText: 'تراجع'
+        title: 'تأكيد الإنهاء', text: "هل أنت متأكد من تسليم الإجابات؟", icon: 'warning',
+        showCancelButton: true, confirmButtonText: 'نعم، تسليم', cancelButtonText: 'تراجع'
     }).then((res) => { if (res.isConfirmed) finishExam(false); });
 };
 
 async function finishExam(isForced) {
     if (isForced && !ui.sections.result.classList.contains('hidden')) return;
-    
     clearInterval(timerInterval);
-
-    if (isForced) {
-        await Swal.fire({ title: 'انتهى الوقت', text: 'تم تسليم الامتحان تلقائياً', icon: 'info' });
-    }
-
+    if (isForced) await Swal.fire({ title: 'انتهى الوقت', text: 'تم تسليم الامتحان تلقائياً', icon: 'info' });
     let score = 0;
-    examData.questions.forEach(q => {
-        if (userAnswers[q.id] === q.correct) score++;
-    });
-
+    examData.questions.forEach(q => { if (userAnswers[q.id] === q.correct) score++; });
     document.getElementById('finalScore').textContent = `${score} / ${examData.questions.length}`;
     showSection('result');
     ui.timer.textContent = "00:00";
@@ -257,18 +227,15 @@ function setupTheme() {
     if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
     const btn = document.getElementById('themeToggle');
     if(btn) btn.onclick = () => {
-        document.body.classList.toggle('light-mode');
+        document.body.classList.toggle('dark-mode');
+localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     };
 }
-
 function showSection(name) {
-    Object.values(ui.sections).forEach(el => {
-        if(el) el.classList.add('hidden');
-    });
+    Object.values(ui.sections).forEach(el => { if(el) el.classList.add('hidden'); });
     if(ui.sections[name]) ui.sections[name].classList.remove('hidden');
 }
-
 function renderStudentInfo() {
     const s = examData.meta.student;
     if (!s) return;
@@ -281,13 +248,11 @@ function renderStudentInfo() {
     if(ui.waitingInfo) ui.waitingInfo.innerHTML = html;
     if(ui.resultInfo) ui.resultInfo.innerHTML = html;
 }
-
 function formatTime(s) {
     if (s < 0) return "00:00";
+    s = Math.ceil(s); 
     const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = Math.floor(s % 60);
     const timeStr = `${m.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
     return h > 0 ? `${h}:${timeStr}` : timeStr;
 }
-
-
 init();
